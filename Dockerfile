@@ -32,6 +32,4 @@ COPY opendkim/SigningTable /etc/opendkim/SigningTable
 RUN mkdir mkdir /etc/opendkim/keys
 RUN mkdir /etc/opendkim/keys/example.com
 
-EXPOSE 25
-
 CMD ["sh", "-c", "opendkim-genkey -s mail -d example.com ;  mv mail.* /etc/opendkim/keys/example.com/; chown opendkim:opendkim /etc/opendkim/keys/example.com/mail.private ; service syslog-ng start ; service start opendkim ; service postfix start ; service dovecot start ; tail -F /var/log/mail.log"]

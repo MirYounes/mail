@@ -8,4 +8,4 @@ services:
     volumes:
       - ./opendkim/keys:/etc/opendkim/keys
     ports:
-      - 25:25
+      - "125:25"
