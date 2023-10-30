@@ -5,7 +5,5 @@ services:
     container_name: mail
     build: .
     restart: unless-stopped
-    volumes:
-      - ./opendkim/keys:/etc/opendkim/keys
     ports:
       - "125:25"
