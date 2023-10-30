@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  mail:
+    container_name: mail
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./opendkim/keys:/etc/opendkim/keys
+    ports:
+      - 25:25
