@@ -36,4 +36,4 @@ COPY startup.bash /startup.bash
 RUN chmod +x /startup.bash && ./startup.bash
 
 
-CMD ["sh", "-c", "service syslog-ng start ; service start opendkim ; service postfix start ; service dovecot start ; tail -F /var/log/mail.log"]
+CMD ["sh", "-c", "service syslog-ng start ; /usr/sbin/opendkim -x /etc/opendkim.conf -u opendkim ; service postfix start ; service dovecot start ; tail -F /var/log/mail.log"]
