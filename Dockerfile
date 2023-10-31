@@ -12,8 +12,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -q -y postfix
 RUN  apt-get install -y opendkim \
     opendkim-tools\
     dovecot-imapd \
-    dovecot-pop3d \
-    syslog-ng
+    dovecot-pop3d
+
+RUN apt-get install -q -y syslog-ng
 
 COPY postfix/main.cf /etc/postfix/main.cf
 RUN mkdir /etc/postfix/cert
@@ -29,7 +30,6 @@ RUN mkdir /etc/opendkim
 COPY opendkim/TrustedHosts /etc/opendkim/TrustedHosts
 COPY opendkim/KeyTable /etc/opendkim/KeyTable
 COPY opendkim/SigningTable /etc/opendkim/SigningTable
-
 
 
 COPY startup.bash /startup.bash

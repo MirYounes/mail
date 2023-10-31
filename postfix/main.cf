@@ -24,9 +24,9 @@ smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, defer_u
 smtpd_sasl_security_options = noanonymous
 smtpd_sender_restrictions =
     permit_mynetworks,
-#    reject_authenticated_sender_login_mismatch,
+    reject_authenticated_sender_login_mismatch,
     permit_sasl_authenticated
-#smtpd_sender_login_maps = hash:/etc/postfix/sender_login
+smtpd_sender_login_maps = hash:/etc/postfix/sender_login
 
 
 mydomain = example.com
