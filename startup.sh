@@ -6,7 +6,9 @@ postconf mydomain="${DOMAIN}"
 postconf myhostname="${HOST}"
 
 mkdir /etc/opendkim
-echo "*.DOMAIN" >> /etc/opendkim/TrustedHosts
+echo "127.0.0.1" >> /etc/opendkim/TrustedHosts
+echo "localhost" >> /etc/opendkim/TrustedHosts
+echo "*.${DOMAIN}" >> /etc/opendkim/TrustedHosts
 echo "*@${DOMAIN} mail._domainkey.${DOMAIN}" >> /etc/opendkim/SigningTable
 echo "mail._domainkey.${DOMAIN} ${DOMAIN}:mail:/etc/opendkim/keys/${DOMAIN}/mail.private" >> /etc/opendkim/KeyTable
 
