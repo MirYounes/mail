@@ -1,20 +1,17 @@
 FROM ubuntu:latest
 
+ARG DOMAIN
+ARG HOST 
+
 RUN apt-get update
 
-# Install Postfix.
-RUN echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt
-RUN echo "postfix postfix/mailname string mail.example.com" >> preseed.txt
-# Use Mailbox format.
-RUN debconf-set-selections preseed.txt
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -q -y postfix
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y postfix
 
 RUN  apt-get install -y opendkim \
     opendkim-tools\
     dovecot-imapd \
-    dovecot-pop3d
-
-RUN apt-get install -q -y syslog-ng
+    dovecot-pop3d \
+    syslog-ng
 
 COPY postfix/main.cf /etc/postfix/main.cf
 RUN mkdir /etc/postfix/cert
@@ -26,14 +23,9 @@ COPY dovecot/auth.conf /etc/dovecot/conf.d/10-auth.conf
 
 COPY opendkim/opendkim.conf /etc/opendkim.conf
 COPY opendkim/default /etc/default/opendkim
-RUN mkdir /etc/opendkim
-COPY opendkim/TrustedHosts /etc/opendkim/TrustedHosts
-COPY opendkim/KeyTable /etc/opendkim/KeyTable
-COPY opendkim/SigningTable /etc/opendkim/SigningTable
 
-
-COPY startup.bash /startup.bash
-RUN chmod +x /startup.bash && ./startup.bash
+COPY startup.sh /startup.sh
+RUN chmod +x /startup.sh && ./startup.sh
 
 
 CMD ["sh", "-c", "service syslog-ng start ; /usr/sbin/opendkim -x /etc/opendkim.conf -u opendkim ; service postfix start ; service dovecot start ; tail -F /var/log/mail.log"]
